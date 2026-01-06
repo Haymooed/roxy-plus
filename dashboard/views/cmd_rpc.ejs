@@ -249,6 +249,10 @@
                         <label class="input-label">Name (Top Line)</label>
                         <input type="text" id="name" class="input-field" placeholder="e.g. Roxy+ Bot">
                     </div>
+                    <div class="input-group full-width">
+                        <label class="input-label">Application ID (Optional)</label>
+                        <input type="text" id="applicationId" class="input-field" placeholder="Default: Your User ID">
+                    </div>
                 </div>
             </div>
 
@@ -309,6 +313,8 @@
                         <input type="text" id="button2Url" class="input-field" placeholder="https://...">
                     </div>
                 </div>
+                <p style="color: #666; font-size: 0.8rem; margin-top: -10px; font-style: italic;">Note: Discord prevents
+                    you from clicking your own RPC buttons. Ask others to verify they work.</p>
             </div>
 
             <button type="submit" class="btn-save" id="saveBtn">Save Configuration</button>
@@ -327,6 +333,7 @@
                     document.getElementById('enabled').checked = data.enabled;
                     document.getElementById('type').value = data.type || 'PLAYING';
                     document.getElementById('name').value = data.name || '';
+                    document.getElementById('applicationId').value = data.applicationId || '';
                     document.getElementById('details').value = data.details || '';
                     document.getElementById('state').value = data.state || '';
 
@@ -353,6 +360,7 @@
                     enabled: document.getElementById('enabled').checked,
                     type: document.getElementById('type').value,
                     name: document.getElementById('name').value,
+                    applicationId: document.getElementById('applicationId').value,
                     details: document.getElementById('details').value,
                     state: document.getElementById('state').value,
 

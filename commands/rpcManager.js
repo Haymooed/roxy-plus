@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { RichPresence } = require('discord.js-selfbot-v13');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const RPC_FILE = path.join(DATA_DIR, 'rpc.json');
@@ -9,6 +8,7 @@ const defaultData = {
     enabled: false,
     type: 'PLAYING',
     name: 'Roxy+',
+    applicationId: '',
     details: '',
     state: '',
     largeImage: '',
@@ -43,46 +43,56 @@ async function setPresence(client, data) {
     }
 
     try {
-        const presence = new RichPresence(client);
-
-        presence.setName(data.name || 'Roxy+');
-        presence.setType(data.type.toUpperCase());
-
-        if (data.details) presence.setDetails(data.details);
-        if (data.state) presence.setState(data.state);
+        // Constructing the activity object manually to match the user's working example
+        // allowing buttons without an explicit external Application ID.
+        const activity = {
+            type: data.type.toUpperCase(),
+            application_id: data.applicationId || client.user.id, // Defaults to user ID
+            name: data.name || 'Roxy+',
+            details: data.details || undefined,
+            state: data.state || undefined,
+            assets: {},
+            buttons: [],
+            metadata: {
+                button_urls: []
+            }
+        };
 
         if (data.type.toUpperCase() === 'STREAMING') {
-            // Discord requires a valid Twitch/YouTube URL for streaming status
-            // For selfbot, it might be more lenient, but good practice to provide one.
-            // The original code used 'https://twitch.tv/discord', let's keep that as a default if none is provided.
-            presence.setURL(data.url || 'https://twitch.tv/discord');
+            activity.url = 'https://twitch.tv/discord';
         }
 
         if (data.largeImage) {
-            presence.setAssetsLargeImage(data.largeImage);
-            if (data.largeText) presence.setAssetsLargeText(data.largeText);
+            activity.assets.large_image = data.largeImage;
+            if (data.largeText) activity.assets.large_text = data.largeText;
         }
         if (data.smallImage) {
-            presence.setAssetsSmallImage(data.smallImage);
-            if (data.smallText) presence.setAssetsSmallText(data.smallText);
+            activity.assets.small_image = data.smallImage;
+            if (data.smallText) activity.assets.small_text = data.smallText;
         }
 
-        const buttons = [];
+        if (Object.keys(activity.assets).length === 0) delete activity.assets;
+
         const isValidUrl = (url) => url && (url.startsWith('http://') || url.startsWith('https://'));
 
         if (data.button1Text && isValidUrl(data.button1Url)) {
-            buttons.push({ name: data.button1Text, url: data.button1Url });
+            activity.buttons.push(data.button1Text);
+            activity.metadata.button_urls.push(data.button1Url);
         }
         if (data.button2Text && isValidUrl(data.button2Url)) {
-            buttons.push({ name: data.button2Text, url: data.button2Url });
+            activity.buttons.push(data.button2Text);
+            activity.metadata.button_urls.push(data.button2Url);
         }
 
-        if (buttons.length > 0) {
-            presence.setButtons(buttons);
+        if (activity.buttons.length === 0) {
+            delete activity.buttons;
+            delete activity.metadata;
         }
 
-        await client.user.setActivity(presence);
-        // Removed success log as per instruction
+        // Setting presence using the raw object method
+        await client.user.setPresence({
+            activities: [activity]
+        });
 
     } catch (e) {
         console.error("[RPC] Error setting presence:", e);
