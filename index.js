@@ -80,6 +80,10 @@ client.on('ready', () => {
         console.log('Connecting to Lavalink...');
     }
 
+    // Initialize RPC
+    const rpcManager = require('./commands/rpcManager');
+    rpcManager.initialize(client);
+
     // Start Dashboard
     dashboard(client);
 });

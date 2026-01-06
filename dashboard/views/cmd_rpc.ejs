@@ -12,120 +12,387 @@
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-
-        /* Lock scroll for intro */
-
-        .page-container {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: zoomInPage 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .rpc-container {
+            width: 95%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            display: none;
             opacity: 0;
-            transform: scale(0.9);
         }
 
-        @keyframes zoomInPage {
+        .page-loaded .rpc-container {
+            display: block;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
             to {
                 opacity: 1;
-                transform: scale(1);
             }
         }
 
-        .coming-soon-box {
-            background: rgba(19, 19, 26, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 50px;
+        .rpc-header {
             text-align: center;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
         }
 
-        .icon {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        h1 {
+        .rpc-header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #fff, #f1c40f);
+            background: linear-gradient(135deg, #fff, #a29bfe);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        p {
-            color: #888;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+        .section-card {
+            background: #111116;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .btn-back {
-            background: rgba(255, 255, 255, 0.1);
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #a29bfe;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            background: #050508;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 1rem;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #8a2be2;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+        }
+
+        select.input-field {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #8a2be2, #6c5ce7);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
             cursor: pointer;
             transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
         }
 
-        .btn-back:hover {
-            background: #fff;
-            color: #000;
+        .btn-save:hover {
             transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Toggle Switch */
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #9d14ff;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(30px);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rpc-container {
+                padding: 80px 15px 100px;
+                width: 100%;
+            }
+
+            .back-btn {
+                top: 20px;
+                left: 20px;
+            }
         }
     </style>
 </head>
 
-<body>
+<body class="page-loaded">
 
-    <div class="page-container">
-        <div class="coming-soon-box">
-            <div class="icon">🎮</div>
+    <a href="/commands" class="back-btn">← Back</a>
+
+    <div class="rpc-container">
+        <div class="rpc-header">
             <h1>Rich Presence</h1>
-            <p>Advanced RPC configuration is currently under development.</p>
-            <a href="javascript:goBack()" class="btn-back">← Go Back</a>
+            <p>Customize your activity status visible to others.</p>
         </div>
+
+        <form id="rpcForm" onsubmit="saveRpc(event)">
+
+            <div class="section-card">
+                <div class="status-row">
+                    <span style="font-size: 1.2rem; font-weight:600;">Enable RPC</span>
+                    <label class="switch">
+                        <input type="checkbox" id="enabled">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label class="input-label">Activity Type</label>
+                        <select id="type" class="input-field">
+                            <option value="PLAYING">Playing</option>
+                            <option value="STREAMING">Streaming</option>
+                            <option value="LISTENING">Listening</option>
+                            <option value="WATCHING">Watching</option>
+                            <option value="COMPETING">Competing</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Name (Top Line)</label>
+                        <input type="text" id="name" class="input-field" placeholder="e.g. Roxy+ Bot">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">Details & State</div>
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label class="input-label">Details (Second Line)</label>
+                        <input type="text" id="details" class="input-field" placeholder="e.g. Preparing for battle">
+                    </div>
+                    <div class="input-group full-width">
+                        <label class="input-label">State (Third Line)</label>
+                        <input type="text" id="state" class="input-field" placeholder="e.g. Level 99">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">Images (Assets)</div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label class="input-label">Large Image URL</label>
+                        <input type="text" id="largeImage" class="input-field" placeholder="https://...">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Large Image Tooltip</label>
+                        <input type="text" id="largeText" class="input-field" placeholder="Text when hovering image">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Small Image URL</label>
+                        <input type="text" id="smallImage" class="input-field" placeholder="https://...">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Small Image Tooltip</label>
+                        <input type="text" id="smallText" class="input-field"
+                            placeholder="Text when hovering small image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">Interactive Buttons</div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label class="input-label">Button 1 Label</label>
+                        <input type="text" id="button1Text" class="input-field" placeholder="Visit Website">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Button 1 URL</label>
+                        <input type="text" id="button1Url" class="input-field" placeholder="https://...">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Button 2 Label</label>
+                        <input type="text" id="button2Text" class="input-field" placeholder="Join Server">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Button 2 URL</label>
+                        <input type="text" id="button2Url" class="input-field" placeholder="https://...">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-save" id="saveBtn">Save Configuration</button>
+        </form>
     </div>
 
     <%- include('partials/super_button') %>
 
         <script>
-            function goBack() {
-                const container = document.querySelector('.page-container');
-                container.style.transition = 'all 0.3s ease-in';
-                container.style.opacity = '0';
-                container.style.transform = 'scale(0.8)';
+            // Load Data
+            window.onload = async () => {
+                try {
+                    const res = await fetch('/api/rpc');
+                    const data = await res.json();
 
-                setTimeout(() => {
-                    window.location.href = '/commands';
-                }, 300);
+                    document.getElementById('enabled').checked = data.enabled;
+                    document.getElementById('type').value = data.type || 'PLAYING';
+                    document.getElementById('name').value = data.name || '';
+                    document.getElementById('details').value = data.details || '';
+                    document.getElementById('state').value = data.state || '';
+
+                    document.getElementById('largeImage').value = data.largeImage || '';
+                    document.getElementById('largeText').value = data.largeText || '';
+                    document.getElementById('smallImage').value = data.smallImage || '';
+                    document.getElementById('smallText').value = data.smallText || '';
+
+                    document.getElementById('button1Text').value = data.button1Text || '';
+                    document.getElementById('button1Url').value = data.button1Url || '';
+                    document.getElementById('button2Text').value = data.button2Text || '';
+                    document.getElementById('button2Url').value = data.button2Url || '';
+                } catch (e) { console.error(e); }
+            };
+
+            async function saveRpc(e) {
+                e.preventDefault();
+                const btn = document.getElementById('saveBtn');
+                const originalText = btn.innerText;
+                btn.innerText = "Saving...";
+                btn.disabled = true;
+
+                const data = {
+                    enabled: document.getElementById('enabled').checked,
+                    type: document.getElementById('type').value,
+                    name: document.getElementById('name').value,
+                    details: document.getElementById('details').value,
+                    state: document.getElementById('state').value,
+
+                    largeImage: document.getElementById('largeImage').value,
+                    largeText: document.getElementById('largeText').value,
+                    smallImage: document.getElementById('smallImage').value,
+                    smallText: document.getElementById('smallText').value,
+
+                    button1Text: document.getElementById('button1Text').value,
+                    button1Url: document.getElementById('button1Url').value,
+                    button2Text: document.getElementById('button2Text').value,
+                    button2Url: document.getElementById('button2Url').value,
+                };
+
+                try {
+                    const res = await fetch('/api/rpc', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await res.json();
+
+                    if (result.success) {
+                        btn.innerText = "Saved Successfully!";
+                        btn.style.background = "#2ecc71"; // Green
+                        setTimeout(() => {
+                            btn.innerText = originalText;
+                            btn.style.background = ""; // Reset
+                            btn.disabled = false;
+                        }, 2000);
+                    } else {
+                        alert('Failed to save.');
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                    }
+                } catch (e) {
+                    console.error(e);
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
             }
         </script>
 </body>

@@ -209,6 +209,21 @@ module.exports = (client) => {
     app.get('/commands/rpc', (req, res) => {
         res.render('cmd_rpc', { user: client.user, page: 'commands' });
     });
+
+    // RPC API
+    app.get('/api/rpc', (req, res) => {
+        const rpcManager = require('../commands/rpcManager');
+        res.json(rpcManager.loadData());
+    });
+
+    app.post('/api/rpc', async (req, res) => {
+        const rpcManager = require('../commands/rpcManager');
+        const data = req.body;
+        rpcManager.saveData(data);
+        await rpcManager.setPresence(client, data);
+        res.json({ success: true });
+    });
+
     app.get('/commands/reaction', (req, res) => {
         res.render('cmd_reaction', { user: client.user, page: 'commands' });
     });

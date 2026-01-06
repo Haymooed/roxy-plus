@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "type": "PLAYING",
+  "name": "Roxy+",
+  "details": "js ?",
+  "state": "not my problem",
+  "largeImage": "https://cdn.discordapp.com/attachments/1270624795549106227/1457755094098509905/download_3.gif?ex=695d27ba&is=695bd63a&hm=bb1b2542324f4c08a69d885d03e49e3147a263538476b47d0689e4a29d151431",
+  "largeText": "watching you",
+  "smallImage": "https://cdn.discordapp.com/attachments/1270624795549106227/1457755094098509905/download_3.gif?ex=695d27ba&is=695bd63a&hm=bb1b2542324f4c08a69d885d03e49e3147a263538476b47d0689e4a29d151431",
+  "smallText": "hehe",
+  "button1Text": "github",
+  "button1Url": "https://github.com/manishbhaiii",
+  "button2Text": "hmm",
+  "button2Url": "https://github.com/manishbhaiii/roxy-selfbot"
+}
