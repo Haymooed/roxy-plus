@@ -117,7 +117,7 @@ async function generateReply(userId, userContent) {
     let maxTokens = 16384;
 
     if (config.modelType === "fast") {
-        modelName = "deepseek-ai/deepseek-v3.1";
+        modelName = "moonshotai/kimi-k2-instruct-0905";
         temp = 0.6;
         maxTokens = 4096;
     }
